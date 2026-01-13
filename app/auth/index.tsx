@@ -69,7 +69,7 @@ export default function LoginScreen({ onNavigateToSignup }: LoginScreenProps) {
               autoCapitalize="none"
               value={email}
               onChangeText={setEmail}
-              editable={!loading}
+              editable={!loading && !authLoading}
             />
           </View>
 
