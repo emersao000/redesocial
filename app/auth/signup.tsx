@@ -11,8 +11,14 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import { useAuth } from '../contexts/AuthContext';
 
-export default function SignupScreen() {
+interface SignupScreenProps {
+  onNavigateToLogin?: () => void;
+}
+
+export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
+  const { signup, isLoading: authLoading } = useAuth();
   const [fullName, setFullName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -63,12 +69,8 @@ export default function SignupScreen() {
 
     setLoading(true);
     try {
-      // TODO: Integrar com backend de autenticação
-      // Aqui você poderia usar Supabase, Firebase, ou sua própria API
-      setTimeout(() => {
-        Alert.alert('Sucesso', 'Conta criada com sucesso! Faça login para continuar.');
-        setLoading(false);
-      }, 1500);
+      await signup(fullName, email, password);
+      Alert.alert('Sucesso', 'Conta criada com sucesso!');
     } catch (error) {
       Alert.alert('Erro', 'Falha ao criar conta. Tente novamente.');
       setLoading(false);
@@ -128,7 +130,7 @@ export default function SignupScreen() {
               autoCapitalize="words"
               value={fullName}
               onChangeText={setFullName}
-              editable={!loading}
+              editable={!loading && !authLoading}
             />
           </View>
 
@@ -142,7 +144,7 @@ export default function SignupScreen() {
               autoCapitalize="none"
               value={email}
               onChangeText={setEmail}
-              editable={!loading}
+              editable={!loading && !authLoading}
             />
           </View>
 
@@ -154,9 +156,9 @@ export default function SignupScreen() {
                 placeholder="••••••••"
                 placeholderTextColor="#999"
                 secureTextEntry={!showPassword}
-                value={password}
-                onChangeText={setPassword}
-                editable={!loading}
+              value={password}
+              onChangeText={setPassword}
+              editable={!loading && !authLoading}
               />
               <TouchableOpacity
                 onPress={() => setShowPassword(!showPassword)}
@@ -178,9 +180,9 @@ export default function SignupScreen() {
                 placeholder="••••••••"
                 placeholderTextColor="#999"
                 secureTextEntry={!showConfirmPassword}
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                editable={!loading}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              editable={!loading && !authLoading}
               />
               <TouchableOpacity
                 onPress={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -197,7 +199,7 @@ export default function SignupScreen() {
             <TouchableOpacity
               style={styles.checkbox}
               onPress={() => setAgreedToTerms(!agreedToTerms)}
-              disabled={loading}
+              disabled={loading || authLoading}
             >
               <View
                 style={[
@@ -216,11 +218,11 @@ export default function SignupScreen() {
           </View>
 
           <TouchableOpacity
-            style={[styles.signupButton, loading && styles.signupButtonDisabled]}
+            style={[styles.signupButton, (loading || authLoading) && styles.signupButtonDisabled]}
             onPress={handleSignup}
-            disabled={loading}
+            disabled={loading || authLoading}
           >
-            {loading ? (
+            {loading || authLoading ? (
               <ActivityIndicator color="#fff" />
             ) : (
               <Text style={styles.signupButtonText}>Criar Conta</Text>
@@ -237,13 +239,13 @@ export default function SignupScreen() {
         <View style={styles.socialButtonsContainer}>
           <TouchableOpacity
             style={styles.socialButton}
-            disabled={loading}
+            disabled={loading || authLoading}
           >
             <Text style={styles.socialButtonText}>Cadastrar com Google</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.socialButton}
-            disabled={loading}
+            disabled={loading || authLoading}
           >
             <Text style={styles.socialButtonText}>Cadastrar com Apple</Text>
           </TouchableOpacity>
@@ -251,7 +253,10 @@ export default function SignupScreen() {
 
         <View style={styles.loginContainer}>
           <Text style={styles.loginText}>Já tem uma conta? </Text>
-          <TouchableOpacity disabled={loading}>
+          <TouchableOpacity
+            disabled={loading || authLoading}
+            onPress={onNavigateToLogin}
+          >
             <Text style={styles.loginLink}>Fazer login</Text>
           </TouchableOpacity>
         </View>
