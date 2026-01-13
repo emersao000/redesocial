@@ -382,37 +382,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 24,
-  },
-  divider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#E0E0E0',
-  },
-  dividerText: {
-    marginHorizontal: 12,
-    color: '#999',
-    fontSize: 14,
-  },
-  socialButtonsContainer: {
-    gap: 12,
-    marginBottom: 24,
-  },
-  socialButton: {
-    borderWidth: 1.5,
-    borderColor: '#E0E0E0',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  socialButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-  },
   loginContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
