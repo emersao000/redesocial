@@ -181,18 +181,15 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
                 placeholder="••••••••"
                 placeholderTextColor="#999"
                 secureTextEntry={!showConfirmPassword}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              editable={!loading && !authLoading}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                editable={!loading && !authLoading}
               />
-              <TouchableOpacity
+              <PasswordVisibilityIcon
+                isVisible={showConfirmPassword}
                 onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                disabled={loading}
-              >
-                <Text style={styles.togglePassword}>
-                  {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
-                </Text>
-              </TouchableOpacity>
+                disabled={loading || authLoading}
+              />
             </View>
           </View>
 
