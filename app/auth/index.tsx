@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import { Button, Input } from '../../components/ui';
+import { Logo, PasswordVisibilityIcon } from '../../components/shared';
 
 interface LoginScreenProps {
   onNavigateToSignup?: () => void;
@@ -57,7 +58,7 @@ export default function LoginScreen({ onNavigateToSignup }: LoginScreenProps) {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.header}>
-            <Text style={styles.title}>Lovele</Text>
+            <Logo size="medium" showText={true} />
             <Text style={styles.subtitle}>Bem-vindo de volta!</Text>
           </View>
 
@@ -79,24 +80,21 @@ export default function LoginScreen({ onNavigateToSignup }: LoginScreenProps) {
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Senha</Text>
               <View style={styles.passwordContainer}>
-                <TextInput
-                  style={styles.passwordInput}
-                  placeholder="••••••••"
-                  placeholderTextColor="#999"
-                  secureTextEntry={!showPassword}
-                  value={password}
-                  onChangeText={setPassword}
-                  editable={!loading && !authLoading}
-                />
-                <TouchableOpacity
-                  onPress={() => setShowPassword(!showPassword)}
-                  disabled={loading || authLoading}
-                >
-                  <Text style={styles.togglePassword}>
-                    {showPassword ? '👁️' : '👁️‍🗨️'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="••••••••"
+                placeholderTextColor="#999"
+                secureTextEntry={!showPassword}
+                value={password}
+                onChangeText={setPassword}
+                editable={!loading && !authLoading}
+              />
+              <PasswordVisibilityIcon
+                isVisible={showPassword}
+                onPress={() => setShowPassword(!showPassword)}
+                disabled={loading || authLoading}
+              />
+            </View>
             </View>
 
             <TouchableOpacity
@@ -145,25 +143,19 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 40,
-    paddingBottom: 30,
+    paddingTop: 24,
+    paddingBottom: 20,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 40,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#007AFF',
-    marginBottom: 8,
+    marginBottom: 32,
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
     fontWeight: '500',
+    marginTop: 12,
   },
   formContainer: {
     width: '100%',
@@ -202,10 +194,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-  togglePassword: {
-    fontSize: 18,
-    paddingHorizontal: 8,
-  },
   forgotPasswordContainer: {
     marginBottom: 24,
   },
@@ -233,6 +221,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 20,
   },
   signupText: {
     fontSize: 14,
