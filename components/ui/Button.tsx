@@ -44,7 +44,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {loading ? (
         <ActivityIndicator
-          color={variant === 'outline' ? '#FF6B6B' : '#fff'}
+          color={variant === 'outline' ? '#007AFF' : '#fff'}
         />
       ) : (
         <Text
@@ -70,15 +70,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button_primary: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#007AFF',
   },
   button_secondary: {
-    backgroundColor: '#FFB3B3',
+    backgroundColor: '#E8F4FF',
   },
   button_outline: {
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: '#FF6B6B',
+    borderColor: '#007AFF',
   },
   button_small: {
     paddingVertical: 8,
@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   text_secondary: {
-    color: '#fff',
+    color: '#007AFF',
   },
   text_outline: {
-    color: '#FF6B6B',
+    color: '#007AFF',
   },
   text_small: {
     fontSize: 12,
