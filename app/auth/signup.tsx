@@ -89,11 +89,11 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
     if (/[0-9]/.test(password)) strength++;
 
     if (strength === 0) {
-      color = '#FF6B6B';
+      color = '#FF3B30';
     } else if (strength === 1 || strength === 2) {
       color = '#FFA500';
     } else {
-      color = '#4CAF50';
+      color = '#34C759';
     }
 
     return (
@@ -109,14 +109,15 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+    <SafeAreaView style={styles.safeArea}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
       >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <View style={styles.header}>
           <Text style={styles.title}>Lovele</Text>
           <Text style={styles.subtitle}>Criar uma nova conta</Text>
@@ -262,8 +263,9 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
             <Text style={styles.loginLink}>Fazer login</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
