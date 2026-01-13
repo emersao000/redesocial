@@ -233,27 +233,6 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.dividerContainer}>
-          <View style={styles.divider} />
-          <Text style={styles.dividerText}>ou</Text>
-          <View style={styles.divider} />
-        </View>
-
-        <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity
-            style={styles.socialButton}
-            disabled={loading || authLoading}
-          >
-            <Text style={styles.socialButtonText}>Cadastrar com Google</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.socialButton}
-            disabled={loading || authLoading}
-          >
-            <Text style={styles.socialButtonText}>Cadastrar com Apple</Text>
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.loginContainer}>
           <Text style={styles.loginText}>Já tem uma conta? </Text>
           <TouchableOpacity
