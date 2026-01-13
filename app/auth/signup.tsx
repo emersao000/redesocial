@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import { Button, Input } from '../../components/ui';
+import { Logo, PasswordVisibilityIcon } from '../../components/shared';
 
 interface SignupScreenProps {
   onNavigateToLogin?: () => void;
@@ -119,7 +120,7 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
           showsVerticalScrollIndicator={false}
         >
         <View style={styles.header}>
-          <Text style={styles.title}>Lovele</Text>
+          <Logo size="medium" showText={true} />
           <Text style={styles.subtitle}>Criar uma nova conta</Text>
         </View>
 
@@ -159,18 +160,15 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
                 placeholder="••••••••"
                 placeholderTextColor="#999"
                 secureTextEntry={!showPassword}
-              value={password}
-              onChangeText={setPassword}
-              editable={!loading && !authLoading}
+                value={password}
+                onChangeText={setPassword}
+                editable={!loading && !authLoading}
               />
-              <TouchableOpacity
+              <PasswordVisibilityIcon
+                isVisible={showPassword}
                 onPress={() => setShowPassword(!showPassword)}
-                disabled={loading}
-              >
-                <Text style={styles.togglePassword}>
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
-                </Text>
-              </TouchableOpacity>
+                disabled={loading || authLoading}
+              />
             </View>
             {password.length > 0 && <PasswordStrength password={password} />}
           </View>
@@ -260,23 +258,18 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 20,
-    paddingTop: 40,
-    paddingBottom: 30,
+    paddingTop: 24,
+    paddingBottom: 20,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#007AFF',
-    marginBottom: 8,
+    marginBottom: 28,
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
     fontWeight: '500',
+    marginTop: 12,
   },
   formContainer: {
     width: '100%',
@@ -314,10 +307,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     fontSize: 16,
     color: '#333',
-  },
-  togglePassword: {
-    fontSize: 18,
-    paddingHorizontal: 8,
   },
   passwordStrengthContainer: {
     marginTop: 8,
