@@ -10,6 +10,7 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import { Button, Input } from '../../components/ui';
@@ -117,27 +118,6 @@ export default function LoginScreen({ onNavigateToSignup }: LoginScreenProps) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.dividerContainer}>
-          <View style={styles.divider} />
-          <Text style={styles.dividerText}>ou</Text>
-          <View style={styles.divider} />
-        </View>
-
-        <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity
-            style={styles.socialButton}
-            disabled={loading || authLoading}
-          >
-            <Text style={styles.socialButtonText}>Entrar com Google</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.socialButton}
-            disabled={loading || authLoading}
-          >
-            <Text style={styles.socialButtonText}>Entrar com Apple</Text>
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>Não tem conta? </Text>
           <TouchableOpacity
@@ -153,9 +133,13 @@ export default function LoginScreen({ onNavigateToSignup }: LoginScreenProps) {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
   },
   scrollContent: {
     flexGrow: 1,
@@ -171,7 +155,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#FF6B6B',
+    color: '#007AFF',
     marginBottom: 8,
   },
   subtitle: {
@@ -193,22 +177,22 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1.5,
-    borderColor: '#E0E0E0',
+    borderColor: '#D8E3F0',
     borderRadius: 10,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
     color: '#333',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F5F8FB',
   },
   passwordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#E0E0E0',
+    borderColor: '#D8E3F0',
     borderRadius: 10,
     paddingHorizontal: 16,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F5F8FB',
   },
   passwordInput: {
     flex: 1,
@@ -224,12 +208,12 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   forgotPassword: {
-    color: '#FF6B6B',
+    color: '#007AFF',
     fontSize: 14,
     fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#007AFF',
     borderRadius: 10,
     paddingVertical: 14,
     alignItems: 'center',
@@ -243,37 +227,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 24,
-  },
-  divider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#E0E0E0',
-  },
-  dividerText: {
-    marginHorizontal: 12,
-    color: '#999',
-    fontSize: 14,
-  },
-  socialButtonsContainer: {
-    gap: 12,
-    marginBottom: 24,
-  },
-  socialButton: {
-    borderWidth: 1.5,
-    borderColor: '#E0E0E0',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  socialButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-  },
   signupContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -286,6 +239,6 @@ const styles = StyleSheet.create({
   signupLink: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FF6B6B',
+    color: '#007AFF',
   },
 });
