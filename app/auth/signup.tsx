@@ -10,6 +10,7 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import { Button, Input } from '../../components/ui';
