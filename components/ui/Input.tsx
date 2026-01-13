@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#E0E0E0',
+    borderColor: '#D8E3F0',
     borderRadius: 10,
     paddingHorizontal: 16,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F5F8FB',
   },
   inputContainerError: {
-    borderColor: '#FF6B6B',
+    borderColor: '#FF3B30',
   },
   iconContainer: {
     marginRight: 8,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 12,
-    color: '#FF6B6B',
+    color: '#FF3B30',
     marginTop: 6,
     fontWeight: '500',
   },
