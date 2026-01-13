@@ -2,20 +2,22 @@
  * Constantes da aplicação Lovele
  */
 
-// Cores
+// Cores - Paleta Azul Lovele
 export const COLORS = {
-  primary: '#FF6B6B',
-  secondary: '#FFB3B3',
-  background: '#fff',
-  surface: '#FAFAFA',
-  text: '#333',
-  textSecondary: '#666',
-  border: '#E0E0E0',
-  error: '#FF6B6B',
-  success: '#4CAF50',
-  warning: '#FFA500',
-  info: '#2196F3',
-  disabled: '#999',
+  primary: '#007AFF',        // Azul forte
+  primaryLight: '#5BA3FF',   // Azul médio
+  primaryVeryLight: '#E8F4FF', // Azul muito fraco (para botões)
+  secondary: '#C0D5FF',      // Azul secundário claro
+  background: '#FFFFFF',     // Branco
+  surface: '#F5F8FB',        // Branco com toque azul
+  text: '#1A1A1A',          // Quase preto
+  textSecondary: '#666666',  // Cinza médio
+  border: '#D8E3F0',        // Borda azulada
+  error: '#FF3B30',         // Vermelho (para erros)
+  success: '#34C759',       // Verde
+  warning: '#FFA500',       // Laranja
+  info: '#007AFF',          // Azul (informação)
+  disabled: '#CCCCCC',      // Cinza
 } as const;
 
 // Espaçamento
