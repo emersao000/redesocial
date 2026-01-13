@@ -47,88 +47,90 @@ export default function LoginScreen({ onNavigateToSignup }: LoginScreenProps) {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+    <SafeAreaView style={styles.safeArea}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
       >
-        <View style={styles.header}>
-          <Text style={styles.title}>Lovele</Text>
-          <Text style={styles.subtitle}>Bem-vindo de volta!</Text>
-        </View>
-
-        <View style={styles.formContainer}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="seu@email.com"
-              placeholderTextColor="#999"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={setEmail}
-              editable={!loading && !authLoading}
-            />
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.header}>
+            <Text style={styles.title}>Lovele</Text>
+            <Text style={styles.subtitle}>Bem-vindo de volta!</Text>
           </View>
 
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Senha</Text>
-            <View style={styles.passwordContainer}>
+          <View style={styles.formContainer}>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Email</Text>
               <TextInput
-                style={styles.passwordInput}
-                placeholder="••••••••"
+                style={styles.input}
+                placeholder="seu@email.com"
                 placeholderTextColor="#999"
-                secureTextEntry={!showPassword}
-                value={password}
-                onChangeText={setPassword}
-              editable={!loading && !authLoading}
-            />
-              <TouchableOpacity
-                onPress={() => setShowPassword(!showPassword)}
-                disabled={loading || authLoading}
-              >
-                <Text style={styles.togglePassword}>
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
-                </Text>
-              </TouchableOpacity>
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
+                editable={!loading && !authLoading}
+              />
             </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Senha</Text>
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  style={styles.passwordInput}
+                  placeholder="••••••••"
+                  placeholderTextColor="#999"
+                  secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={setPassword}
+                  editable={!loading && !authLoading}
+                />
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                  disabled={loading || authLoading}
+                >
+                  <Text style={styles.togglePassword}>
+                    {showPassword ? '👁️' : '👁️‍🗨️'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={styles.forgotPasswordContainer}
+              disabled={loading}
+            >
+              <Text style={styles.forgotPassword}>Esqueceu a senha?</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.loginButton, (loading || authLoading) && styles.loginButtonDisabled]}
+              onPress={handleLogin}
+              disabled={loading || authLoading}
+            >
+              {loading || authLoading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.loginButtonText}>Entrar</Text>
+              )}
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            style={styles.forgotPasswordContainer}
-            disabled={loading}
-          >
-            <Text style={styles.forgotPassword}>Esqueceu a senha?</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.loginButton, (loading || authLoading) && styles.loginButtonDisabled]}
-            onPress={handleLogin}
-            disabled={loading || authLoading}
-          >
-            {loading || authLoading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.loginButtonText}>Entrar</Text>
-            )}
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.signupContainer}>
-          <Text style={styles.signupText}>Não tem conta? </Text>
-          <TouchableOpacity
-            disabled={loading || authLoading}
-            onPress={onNavigateToSignup}
-          >
-            <Text style={styles.signupLink}>Criar conta</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupText}>Não tem conta? </Text>
+            <TouchableOpacity
+              disabled={loading || authLoading}
+              onPress={onNavigateToSignup}
+            >
+              <Text style={styles.signupLink}>Criar conta</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
