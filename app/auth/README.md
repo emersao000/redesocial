@@ -1,274 +1,219 @@
-# 🔐 Sistema de Autenticação - Lovele
+# 🔐 Autenticação - Lovele
 
-Este diretório contém todas as páginas e componentes relacionados à autenticação do Lovele.
+Documentação completa do sistema de autenticação modular e bem organizado.
 
 ## 📁 Estrutura
 
 ```
 app/auth/
-├── index.tsx          # Página de Login
-├── signup.tsx         # Página de Cadastro
-└── README.md         # Este arquivo
+├── index.tsx           # Página de Login
+├── signup.tsx          # Página de Cadastro
+├── AuthLayout.tsx      # Layout compartilhado
+├── README.md           # Este arquivo
 ```
 
-## 🎨 Páginas
+## 🎯 Componentes Principais
 
-### Login (index.tsx)
-Página de login com os seguintes recursos:
-- ✅ Validação de email e senha
-- ✅ Toggle de visibilidade de senha
-- ✅ Opção "Esqueceu a senha?"
-- ✅ Login via Google e Apple (placeholder)
-- ✅ Link para criar nova conta
+### Login (`index.tsx`)
+- Email e senha
+- Validação em tempo real
+- Integração com `useAuth` hook
+- Uso do `AuthLayout` para consistência
 
-### Signup (signup.tsx)
-Página de cadastro com os seguintes recursos:
-- ✅ Formulário completo (Nome, Email, Senha)
-- ✅ Validação robusta de campos
-- ✅ Indicador de força da senha
-- ✅ Confirmação de senha
-- ✅ Aceitar termos e condições
-- ✅ Link para fazer login
+**Props**:
+- `onNavigateToSignup`: Callback para navegar para signup
 
-## 🔗 Contexto de Autenticação
+### Signup (`signup.tsx`)
+- Nome, email, senha e confirmação
+- Indicador de força de senha
+- Checkbox de termos
+- Integração com `useAuth` hook
+- Uso do `AuthLayout` para consistência
 
-A autenticação é gerenciada através de um **Context API** localizado em `app/contexts/AuthContext.tsx`.
+**Props**:
+- `onNavigateToLogin`: Callback para navegar para login
 
-### Usando o Hook `useAuth()`
+### AuthLayout (`AuthLayout.tsx`)
+Layout compartilhado que encapsula:
+- `SafeAreaView` - Protege da barra de navegação
+- `KeyboardAvoidingView` - Ajusta quando teclado abre
+- `ScrollView` - Permite scroll quando necessário
 
-```typescript
-import { useAuth } from '../contexts/AuthContext';
+**Props**:
+- `children`: Conteúdo do layout
+- `scrollable`: Se deve usar ScrollView (padrão: true)
+- `containerStyle`: Estilos customizados
 
-export default function MyComponent() {
-  const { user, isSignedIn, isLoading, login, signup, logout } = useAuth();
+## 🎨 Componentes Reutilizáveis
 
-  return (
-    // Seu código aqui
-  );
-}
+### Logo (`components/shared/Logo.tsx`)
+Componente do logo "Lovele" com coração azul.
+
+```tsx
+import { Logo } from '../../components/shared';
+
+<Logo size="medium" showText={true} />
 ```
 
-### Propriedades e Métodos
+**Props**:
+- `size`: 'small' | 'medium' | 'large'
+- `showText`: Mostrar texto "Lovele"
+- `containerStyle`: Estilos customizados
 
-| Propriedade | Tipo | Descrição |
-|------------|------|-----------|
-| `user` | `User \| null` | Dados do usuário autenticado |
-| `isSignedIn` | `boolean` | Se o usuário está autenticado |
-| `isLoading` | `boolean` | Se uma operação está em progresso |
-| `login(email, password)` | `Promise<void>` | Fazer login |
-| `signup(fullName, email, password)` | `Promise<void>` | Criar nova conta |
-| `logout()` | `Promise<void>` | Fazer logout |
-| `updateProfile(data)` | `Promise<void>` | Atualizar dados do perfil |
+### PasswordVisibilityIcon (`components/shared/PasswordVisibilityIcon.tsx`)
+Ícone para toggle de visibilidade de senha.
 
-## 🔗 Integração com Backend
+```tsx
+import { PasswordVisibilityIcon } from '../../components/shared';
 
-### Opções Recomendadas
-
-#### 1. **Supabase** (Recomendado)
-Oferece autenticação pronta e segura.
-
-```typescript
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const { data, error } = await supabase.auth.signInWithPassword({
-  email,
-  password,
-});
-```
-
-#### 2. **Firebase Authentication**
-Google Firebase fornece uma solução completa de autenticação.
-
-```typescript
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-
-const auth = getAuth();
-await signInWithEmailAndPassword(auth, email, password);
-```
-
-#### 3. **API Customizada**
-Se você tem seu próprio backend:
-
-```typescript
-const response = await fetch('https://seu-api.com/auth/login', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ email, password }),
-});
-
-const { token, user } = await response.json();
-```
-
-## 🛠️ Como Integrar
-
-### Passo 1: Atualizar o `AuthContext.tsx`
-
-Localize os comentários `TODO` e implemente as chamadas API:
-
-```typescript
-// Em app/contexts/AuthContext.tsx
-
-const login = async (email: string, password: string) => {
-  setIsLoading(true);
-  try {
-    // Substitua isto com sua chamada API
-    const { user, token } = await api.login(email, password);
-    
-    // Armazenar token (veja Passo 2)
-    await AsyncStorage.setItem('authToken', token);
-    
-    setUser(user);
-  } catch (error) {
-    throw error;
-  } finally {
-    setIsLoading(false);
-  }
-};
-```
-
-### Passo 2: Armazenar Token de Autenticação
-
-Instale o `@react-native-async-storage/async-storage`:
-
-```bash
-npm install @react-native-async-storage/async-storage
-```
-
-Então, atualize o contexto para armazenar o token:
-
-```typescript
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const login = async (email: string, password: string) => {
-  // ... fazer login ...
-  await AsyncStorage.setItem('authToken', token);
-};
-
-const logout = async () => {
-  await AsyncStorage.removeItem('authToken');
-};
-
-// Na inicialização, recuperar token
-useEffect(() => {
-  const restoreToken = async () => {
-    const token = await AsyncStorage.getItem('authToken');
-    if (token) {
-      // Validar token com backend
-    }
-  };
-  restoreToken();
-}, []);
-```
-
-### Passo 3: Proteger Rotas
-
-Envolver a navegação com a verificação de autenticação:
-
-```typescript
-// Em App.tsx
-export default function App() {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
-  );
-}
-
-function AppContent() {
-  const { isSignedIn, isLoading } = useAuth();
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  return isSignedIn ? <MainApp /> : <AuthApp />;
-}
-```
-
-## 🎨 Personalizações
-
-### Cores do Lovele
-
-| Cor | Código | Uso |
-|-----|--------|-----|
-| Primária | `#FF6B6B` | Botões, links, ênfase |
-| Fundo | `#fff` | Background principal |
-| Texto | `#333` | Textos principais |
-| Texto Leve | `#666` | Textos secundários |
-| Borda | `#E0E0E0` | Bordas dos inputs |
-
-Para alterar as cores, atualize os valores nos estilos das páginas.
-
-### Adicionar Logo
-
-```typescript
-// Em app/auth/index.tsx ou signup.tsx
-import { Image } from 'react-native';
-
-<Image
-  source={require('../../assets/logo.png')}
-  style={{ width: 100, height: 100 }}
+<PasswordVisibilityIcon
+  isVisible={showPassword}
+  onPress={() => setShowPassword(!showPassword)}
+  disabled={false}
 />
 ```
 
-## 🧪 Testando
+**Props**:
+- `isVisible`: Se a senha está visível
+- `onPress`: Callback ao pressionar
+- `disabled`: Se está desativado
 
-### Testar Localmente
+### Button (`components/ui/Button.tsx`)
+Botão reutilizável com variantes.
 
-```bash
-npm start
-# Selecione sua plataforma (ios, android, web)
+```tsx
+<Button
+  title="Entrar"
+  onPress={handleLogin}
+  variant="primary"
+  size="medium"
+  loading={isLoading}
+/>
 ```
 
-### Dados de Teste
+**Props**:
+- `title`: Texto do botão
+- `onPress`: Callback ao pressionar
+- `variant`: 'primary' | 'secondary' | 'outline'
+- `size`: 'small' | 'medium' | 'large'
+- `loading`: Mostrar loading
+- `disabled`: Desativar botão
 
-Você pode criar usuários de teste para validar o fluxo:
+### Input (`components/ui/Input.tsx`)
+Input reutilizável com validação.
 
-```javascript
-const testUser = {
-  email: 'teste@lovele.com',
-  password: 'SenhaForte123',
-  fullName: 'Usuário Teste',
-};
+```tsx
+<Input
+  label="Email"
+  placeholder="seu@email.com"
+  value={email}
+  onChangeText={setEmail}
+  error={emailError}
+  keyboardType="email-address"
+/>
 ```
 
-## ❌ Tratamento de Erros
+**Props**:
+- `label`: Label do input
+- `placeholder`: Placeholder
+- `error`: Mensagem de erro
+- `isPassword`: Se é campo de senha
+- Todas as props do TextInput nativo
 
-O sistema trata automaticamente:
-- ✅ Campos vazios
-- ✅ Emails inválidos
-- ✅ Senhas fracas
-- ✅ Senhas não correspondentes
-- ✅ Termos não aceitos
+## 📐 Layout e Espaçamento
 
-Para adicionar tratamento customizado, modifique os `Alert.alert()` nas funções.
+O sistema usa um padrão consistente de espaçamento:
 
-## 📦 Dependências
+```
+┌─────────────────────────────┐
+│   SafeAreaView              │
+│  ┌─────────────────────────┐│
+│  │ KeyboardAvoidingView    ││
+│  │ ┌─────────────────────┐ ││
+│  │ │ ScrollView          │ ││
+│  │ │ padding: 20px       │ ││
+│  │ │ paddingTop: 24px    │ ││
+│  │ │                     │ ││
+│  │ │ [Conteúdo]          │ ││
+│  │ │                     │ ││
+│  │ │ paddingBottom: 20px │ ││
+│  │ └─────────────────────┘ ││
+│  └─────────────────────────┘│
+└─────────────────────────────┘
+```
 
-O sistema usa apenas React Native nativo:
-- `react-native` - Componentes nativos
-- `expo` - Framework Expo
+## 🔧 Como Usar
 
-Para autenticação avançada, considere adicionar:
-- `@supabase/supabase-js` - Supabase
-- `firebase/auth` - Firebase
-- `@react-native-async-storage/async-storage` - Armazenar tokens
+### Criar uma Nova Página de Autenticação
 
-## 🚀 Próximas Etapas
+```tsx
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import { AuthLayout } from './AuthLayout';
+import { Button, Input } from '../../components/ui';
+import { Logo } from '../../components/shared';
+import { useAuth } from '../contexts/AuthContext';
 
-- [ ] Implementar integração com Supabase/Firebase
-- [ ] Adicionar autenticação social (Google, Apple)
-- [ ] Implementar "Esqueceu a senha"
-- [ ] Adicionar validação de email
-- [ ] Implementar autenticação de dois fatores (2FA)
-- [ ] Adicionar refresh token automático
-- [ ] Criar tela de onboarding pós-registro
+export default function NewAuthPage() {
+  const { isLoading } = useAuth();
+  const [email, setEmail] = useState('');
 
-## 📞 Suporte
+  return (
+    <AuthLayout>
+      <View>
+        <Logo size="medium" />
+        <Input
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <Button
+          title="Continuar"
+          onPress={handleSubmit}
+          loading={isLoading}
+        />
+      </View>
+    </AuthLayout>
+  );
+}
+```
 
-Para dúvidas sobre autenticação, consulte:
-- [Supabase Auth Docs](https://supabase.com/docs/guides/auth)
-- [Firebase Auth Docs](https://firebase.google.com/docs/auth)
-- [React Native Docs](https://reactnative.dev/docs/intro)
+## 🎯 Boas Práticas
+
+✅ **Faça**:
+- Use `AuthLayout` para consistência
+- Use componentes `Button` e `Input` reutilizáveis
+- Mantenha validação separada em `app/utils/validation.ts`
+- Use `useAuth` para operações de autenticação
+- Documente props de componentes
+
+❌ **Não faça**:
+- Não use `SafeAreaView` diretamente (use `AuthLayout`)
+- Não crie inputs customizados sem necessidade
+- Não misture lógica de autenticação com UI
+- Não ignore validações
+
+## 🚀 Próximos Passos
+
+- [ ] Implementar reset de senha
+- [ ] Adicionar autenticação biométrica (fingerprint)
+- [ ] Implementar login social (Google, Apple)
+- [ ] Adicionar 2FA (autenticação de dois fatores)
+- [ ] Criar tela de onboarding
+
+## 📞 Troubleshooting
+
+### Teclado cobrindo inputs
+→ Use `AuthLayout` (já cuida do `KeyboardAvoidingView`)
+
+### Layout com muito espaço em branco
+→ Reduza `paddingTop` em `AuthLayout` ou use `scrollable={false}`
+
+### Inputs com espaçamento inconsistente
+→ Use `marginBottom: 20` em `inputGroup` (padrão no `Input`)
+
+## 📚 Referências
+
+- [React Native SafeAreaView](https://reactnative.dev/docs/safeareaview)
+- [React Native KeyboardAvoidingView](https://reactnative.dev/docs/keyboardavoidingview)
+- [Context API](https://react.dev/reference/react/useContext)
