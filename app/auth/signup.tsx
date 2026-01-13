@@ -249,9 +249,13 @@ export default function SignupScreen({ onNavigateToLogin }: SignupScreenProps) {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
   },
   scrollContent: {
     flexGrow: 1,
@@ -266,7 +270,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#FF6B6B',
+    color: '#007AFF',
     marginBottom: 8,
   },
   subtitle: {
@@ -288,22 +292,22 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1.5,
-    borderColor: '#E0E0E0',
+    borderColor: '#D8E3F0',
     borderRadius: 10,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
     color: '#333',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F5F8FB',
   },
   passwordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#E0E0E0',
+    borderColor: '#D8E3F0',
     borderRadius: 10,
     paddingHorizontal: 16,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F5F8FB',
   },
   passwordInput: {
     flex: 1,
@@ -345,8 +349,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkboxBoxChecked: {
-    backgroundColor: '#FF6B6B',
-    borderColor: '#FF6B6B',
+    backgroundColor: '#007AFF',
+    borderColor: '#007AFF',
   },
   checkmark: {
     color: '#fff',
@@ -360,11 +364,11 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   termsLink: {
-    color: '#FF6B6B',
+    color: '#007AFF',
     fontWeight: '600',
   },
   signupButton: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#007AFF',
     borderRadius: 10,
     paddingVertical: 14,
     alignItems: 'center',
@@ -421,6 +425,6 @@ const styles = StyleSheet.create({
   loginLink: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FF6B6B',
+    color: '#007AFF',
   },
 });
