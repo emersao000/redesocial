@@ -11,8 +11,14 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import { useAuth } from '../contexts/AuthContext';
 
-export default function LoginScreen() {
+interface LoginScreenProps {
+  onNavigateToSignup?: () => void;
+}
+
+export default function LoginScreen({ onNavigateToSignup }: LoginScreenProps) {
+  const { login, isLoading: authLoading } = useAuth();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
@@ -31,12 +37,7 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      // TODO: Integrar com backend de autenticação
-      // Aqui você poderia usar Supabase, Firebase, ou sua própria API
-      setTimeout(() => {
-        Alert.alert('Sucesso', 'Login realizado com sucesso!');
-        setLoading(false);
-      }, 1500);
+      await login(email, password);
     } catch (error) {
       Alert.alert('Erro', 'Falha ao fazer login. Tente novamente.');
       setLoading(false);
@@ -82,11 +83,11 @@ export default function LoginScreen() {
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
-                editable={!loading}
-              />
+              editable={!loading && !authLoading}
+            />
               <TouchableOpacity
                 onPress={() => setShowPassword(!showPassword)}
-                disabled={loading}
+                disabled={loading || authLoading}
               >
                 <Text style={styles.togglePassword}>
                   {showPassword ? '👁️' : '👁️‍🗨️'}
@@ -103,11 +104,11 @@ export default function LoginScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.loginButton, loading && styles.loginButtonDisabled]}
+            style={[styles.loginButton, (loading || authLoading) && styles.loginButtonDisabled]}
             onPress={handleLogin}
-            disabled={loading}
+            disabled={loading || authLoading}
           >
-            {loading ? (
+            {loading || authLoading ? (
               <ActivityIndicator color="#fff" />
             ) : (
               <Text style={styles.loginButtonText}>Entrar</Text>
@@ -124,13 +125,13 @@ export default function LoginScreen() {
         <View style={styles.socialButtonsContainer}>
           <TouchableOpacity
             style={styles.socialButton}
-            disabled={loading}
+            disabled={loading || authLoading}
           >
             <Text style={styles.socialButtonText}>Entrar com Google</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.socialButton}
-            disabled={loading}
+            disabled={loading || authLoading}
           >
             <Text style={styles.socialButtonText}>Entrar com Apple</Text>
           </TouchableOpacity>
@@ -138,7 +139,10 @@ export default function LoginScreen() {
 
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>Não tem conta? </Text>
-          <TouchableOpacity disabled={loading}>
+          <TouchableOpacity
+            disabled={loading || authLoading}
+            onPress={onNavigateToSignup}
+          >
             <Text style={styles.signupLink}>Criar conta</Text>
           </TouchableOpacity>
         </View>
